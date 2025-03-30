@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz Generator</title>
+        <style>
+            body {
+                background-size: cover;
+                background-image: url(pp.jpeg);
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #ebd05c;
+            }
+            .container {
+                background-color: rgb(60, 57, 11);
+                width: 50%;
+                margin: 50px auto;
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            button {
+                background-color: antiquewhite;
+                padding: 10px 20px;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 style="color: darksalmon;">Quiz</h1>
+            <div id="quiz-container" style="color: rgb(29, 18, 18);"></div>
+            <button onclick="submitQuiz()">Submit</button>
+            <h2 id="result"></h2>
+        </div>
+        <script>
+            const questions = [
+                {
+                    question: "What is the capital of France?",
+                    options: ["Berlin", "Madrid", "Paris", "Lisbon"],
+                    answer: "Paris"
+                },
+                {
+                    question: "Which planet is known as the Red Planet?",
+                    options: ["Earth", "Mars", "Jupiter", "Venus"],
+                    answer: "Mars"
+                },
+                {
+                    question: "What is 2 + 2?",
+                    options: ["3", "4", "5", "6"],
+                    answer: "4"
+                }
+            ];
+
+            const quizContainer = document.getElementById("quiz-container");
+
+            function loadQuiz() {
+                quizContainer.innerHTML = "";
+                questions.forEach((q, index) => {
+                    const questionElement = document.createElement("div");
+                    questionElement.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+                    q.options.forEach(option => {
+                        questionElement.innerHTML += `
+                            <input type="radio" name="q${index}" value="${option}"> ${option}<br>
+                        `;
+                    });
+                    quizContainer.appendChild(questionElement);
+                });
+            }
+
+            function submitQuiz() {
+                let score = 0;
+                questions.forEach((q, index) => {
+                    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                    if (selected && selected.value === q.answer) {
+                        score++;
+                    }
+                });
+                document.getElementById("result").innerText = `Your score: ${score} / ${questions.length}`;
+            }
+
+            loadQuiz();
+        </script>
+    </body>
+</html>
